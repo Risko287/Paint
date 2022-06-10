@@ -1,11 +1,15 @@
+import lombok.Setter;
+
 import java.awt.*;
 
 public class Line {
     private final int x1;
     private final int y1;
 
-    private final int x2;
-    private final int y2;
+    @Setter
+    private int x2;
+    @Setter
+    private int y2;
 
     private final Color color;
 
