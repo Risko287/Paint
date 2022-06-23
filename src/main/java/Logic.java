@@ -1,27 +1,25 @@
 import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.event.MouseEvent;
 
 public class Logic extends Adapter{
 
-    private int startX;
-    private int startY;
-    private int endX;
-    private int endY;
-
     @Getter
-    private Render render;
+    private final Render render;
+
+    @Setter
+    private int mode;
 
     public Logic() {
         render = new Render();
         render.addMouseListener(this);
         render.addMouseMotionListener(this);
+        mode = 0;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        startX = e.getX();
-        startY = e.getY();
         render.startDrawLine(e);
         render.startDrawRect(e);
         render.startDrawCircle(e);
@@ -29,19 +27,21 @@ public class Logic extends Adapter{
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        endX = e.getX();
-        endY = e.getY();
+
         //render.drawLine(startX, startY, endX, endY);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
 
-        render.drawLine(e);
-        //render.draw(e);
-
-        render.drawRect(e);
-        render.drawCircle(e);
-
+        switch (mode){
+            case 1: render.drawLine(e);
+                break;
+            case 2: render.drawRect(e);
+                break;
+            case 3: render.drawCircle(e);
+                break;
+            default: render.addPoint(e);
+        }
     }
 }
